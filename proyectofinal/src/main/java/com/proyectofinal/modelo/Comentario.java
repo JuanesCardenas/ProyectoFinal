@@ -1,26 +1,28 @@
 package com.proyectofinal.modelo;
 
 import java.time.LocalDateTime;
+import java.io.Serializable;
 
-public class Comentario {
+public class Comentario implements Serializable {
 
-    private Vendedor vendedor;
-    private String contenido;
-    private LocalDateTime fecha;
+    private static final long serialVersionUID = 1L;
+    private Vendedor autor;             // Quién realizó el comentario
+    private String contenido;           // Contenido del comentario
+    private LocalDateTime fechaComentario; // Fecha en que se hizo el comentario
 
-    // Constructor
-    public Comentario(Vendedor vendedor, String contenido, LocalDateTime fecha) {
-        this.vendedor = vendedor;
+    public Comentario(Vendedor autor, String contenido) {
+        this.autor = autor;
         this.contenido = contenido;
-        this.fecha = fecha;
-    }
-    // Gets y sets
-    public Vendedor getVendedor() {
-        return vendedor;
+        this.fechaComentario = LocalDateTime.now();  // Fecha de creación actual
     }
 
-    public void setVendedor(Vendedor vendedor) {
-        this.vendedor = vendedor;
+    // Getters y Setters
+    public Vendedor getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Vendedor autor) {
+        this.autor = autor;
     }
 
     public String getContenido() {
@@ -31,17 +33,18 @@ public class Comentario {
         this.contenido = contenido;
     }
 
-    public LocalDateTime getFecha() {
-        return fecha;
+    public LocalDateTime getFechaComentario() {
+        return fechaComentario;
     }
 
-    public void setFecha(LocalDateTime fecha) {
-        this.fecha = fecha;
+    // Sobrescritura del método toString para mostrar información del comentario
+    @Override
+    public String toString() {
+        return "Comentario{" +
+                "autor=" + autor.getNombre() +
+                ", contenido='" + contenido + '\'' +
+                ", fechaComentario=" + fechaComentario +
+                '}';
     }
-
-    // Metodo
-    public void comentar(Publicacion publicacion){
-        
-    }
-    
 }
+

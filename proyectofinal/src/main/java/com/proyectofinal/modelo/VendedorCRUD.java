@@ -1,43 +1,49 @@
 package com.proyectofinal.modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.proyectofinal.Excepciones.ExcepcionLimiteVendedores;
+
 public class VendedorCRUD {
-    
-    private List<Vendedor> listaVendedores;
+    private List<Vendedor> vendedores;
 
-    // Constructor
-    public VendedorCRUD(List<Vendedor> listaVendedores) {
-        this.listaVendedores = listaVendedores;
-    }
-    // Gets y Sets
-    public List<Vendedor> getListaVendedores() {
-        return listaVendedores;
+    public VendedorCRUD() {
+        this.vendedores = new ArrayList<>();
     }
 
-    public void setListaVendedores(List<Vendedor> listaVendedores) {
-        this.listaVendedores = listaVendedores;
+    // Crear vendedor
+    public void crearVendedor(Vendedor vendedor) {
+        if (vendedores.size() >= 10) {
+            throw new ExcepcionLimiteVendedores("No se pueden agregar más de 10 vendedores.");
+        }
+        vendedores.add(vendedor);
     }
 
-    // Métodos
-    public void crearVendedor(Vendedor vendedor){
-
+    // Leer vendedor por cédula
+    public Optional<Vendedor> buscarVendedorPorCedula(String cedula) {
+        return vendedores.stream().filter(v -> v.getCedula().equals(cedula)).findFirst();
     }
 
-    public Optional<String> leerVendedor(String string){
-
+    // Actualizar vendedor
+    public void actualizarVendedor(Vendedor vendedorActualizado) {
+        Optional<Vendedor> vendedorExistente = buscarVendedorPorCedula(vendedorActualizado.getCedula());
+        vendedorExistente.ifPresent(v -> {
+            v.setNombre(vendedorActualizado.getNombre());
+            v.setApellidos(vendedorActualizado.getApellidos());
+            v.setDireccion(vendedorActualizado.getDireccion());
+        });
     }
 
-    public boolean actualizarVendedor(String string, Vendedor vendedor){
-
+    // Eliminar vendedor
+    public void eliminarVendedor(String cedula) {
+        vendedores.removeIf(v -> v.getCedula().equals(cedula));
     }
 
-    public boolean eliminarVendedor(String string){
-        
-    }
-    
-    public List<Vendedor> listarVendedores(){
-
+    // Obtener todos los vendedores
+    public List<Vendedor> obtenerTodosLosVendedores() {
+        return new ArrayList<>(vendedores);
     }
 }
+

@@ -1,39 +1,51 @@
 package com.proyectofinal.modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Muro {
-
-    public List<Publicacion> publicaciones;
-    public List<Mensaje> mensajes;
-    public List<MeGusta> meGustas;
+    private List<Mensaje> mensajes;     // Lista de mensajes en el muro
+    private List<Producto> productosPublicados; // Productos que el vendedor ha publicado
 
     // Constructor
-    public Muro(List<Publicacion> publicaciones, List<Mensaje> mensajes, List<MeGusta> meGustas) {
-        this.publicaciones = publicaciones;
-        this.mensajes = mensajes;
-        this.meGustas = meGustas;
+    public Muro() {
+        this.mensajes = new ArrayList<>();
+        this.productosPublicados = new ArrayList<>();
     }
-    // Gets y sets
-    public List<Publicacion> getPublicaciones() {
-        return publicaciones;
+
+    // Método para agregar un mensaje al muro
+    public void agregarMensaje(Mensaje mensaje) {
+        this.mensajes.add(mensaje);
     }
-    public void setPublicaciones(List<Publicacion> publicaciones) {
-        this.publicaciones = publicaciones;
+
+    // Método para agregar un producto publicado al muro
+    public void agregarProductoPublicado(Producto producto) {
+        this.productosPublicados.add(producto);
     }
+
+    // Método para obtener todos los mensajes del muro
     public List<Mensaje> getMensajes() {
         return mensajes;
     }
-    public void setMensajes(List<Mensaje> mensajes) {
-        this.mensajes = mensajes;
-    }
-    public List<MeGusta> getMeGustas() {
-        return meGustas;
-    }
-    public void setMeGustas(List<MeGusta> meGustas) {
-        this.meGustas = meGustas;
+
+    // Método para obtener todos los productos publicados
+    public List<Producto> getProductosPublicados() {
+        return productosPublicados;
     }
 
+    // Método para mostrar los mensajes y productos publicados en el muro
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Muro de Productos Publicados:\n");
+        for (Producto producto : productosPublicados) {
+            sb.append(producto.toString()).append("\n");
+        }
 
-    
+        sb.append("Mensajes:\n");
+        for (Mensaje mensaje : mensajes) {
+            sb.append(mensaje.toString()).append("\n");
+        }
+        return sb.toString();
+    }
 }

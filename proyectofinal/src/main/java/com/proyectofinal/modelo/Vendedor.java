@@ -1,29 +1,31 @@
 package com.proyectofinal.modelo;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
-public class Vendedor {
+public class Vendedor  implements Serializable {
 
+    private static final long serialVersionUID = 1L;
     private String nombre;
-    private String apellido;
-    private String cedula;
+    private String apellidos;
+    private String cedula; // Identificador único
     private String direccion;
-    private List<Producto> productos;
-    private List<Vendedor> contactos;
-    private Muro muro;
-    
-    // Constructor
-    public Vendedor(String nombre, String apellido, String cedula, String direccion, List<Producto> productos,
-            List<Vendedor> contactos, Muro muro) {
+    private List<Vendedor> contactos;   // Lista de contactos (vendedores aliados)
+    private Muro muro;                  // Muro donde se publican productos y mensajes
+    private List<Producto> productos;   // Lista de productos del vendedor
+
+    public Vendedor(String nombre, String apellidos, String cedula, String direccion) {
         this.nombre = nombre;
-        this.apellido = apellido;
+        this.apellidos = apellidos;
         this.cedula = cedula;
         this.direccion = direccion;
-        this.productos = productos;
-        this.contactos = contactos;
-        this.muro = muro;
+        this.contactos = new ArrayList<>();
+        this.muro = new Muro();         // Crear un muro vacío para el vendedor
+        this.productos = new ArrayList<>(); // Inicializar la lista de productos
     }
-    // Get y Set
+
+    // Getters y Setters
     public String getNombre() {
         return nombre;
     }
@@ -32,12 +34,12 @@ public class Vendedor {
         this.nombre = nombre;
     }
 
-    public String getApellido() {
-        return apellido;
+    public String getApellidos() {
+        return apellidos;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
     }
 
     public String getCedula() {
@@ -56,50 +58,54 @@ public class Vendedor {
         this.direccion = direccion;
     }
 
-    public List<Producto> getProductos() {
-        return productos;
-    }
-
-    public void setProductos(List<Producto> productos) {
-        this.productos = productos;
-    }
-
     public List<Vendedor> getContactos() {
         return contactos;
-    }
-
-    public void setContactos(List<Vendedor> contactos) {
-        this.contactos = contactos;
     }
 
     public Muro getMuro() {
         return muro;
     }
 
-    public void setMuro(Muro muro) {
-        this.muro = muro;
+    public List<Producto> getProductos() {
+        return productos; // Getter para obtener la lista de productos
     }
 
-    // Metodos
-    public void agregarProducto(Producto producto){
-
+    // Métodos para gestionar los contactos
+    public void agregarContacto(Vendedor nuevoContacto) {
+        if (!contactos.contains(nuevoContacto)) {
+            contactos.add(nuevoContacto);
+            nuevoContacto.getContactos().add(this);  // Vinculación bidireccional
+        }
     }
 
-    public void solicitarVinculo(Vendedor vendedor){
-
+    public void eliminarContacto(Vendedor contacto) {
+        contactos.remove(contacto);
+        contacto.getContactos().remove(this);  // Eliminar la relación bidireccional
     }
 
-    public void publicarComentario(Producto producto, String comentario){
-
+    // Método para publicar un producto en el muro y la lista de productos
+    public void publicarProducto(Producto producto) {
+        this.muro.agregarProductoPublicado(producto); // Agregar al muro
+        this.productos.add(producto); // Agregar a la lista de productos
     }
 
-    public void darMeGusta(Producto producto){
-
+    // Método para agregar un mensaje al muro
+    public void enviarMensaje(Vendedor destinatario, String contenido) {
+        Mensaje mensaje = new Mensaje(this, destinatario, contenido);
+        this.muro.agregarMensaje(mensaje);
+        destinatario.getMuro().agregarMensaje(mensaje); // Añadir mensaje al muro del destinatario
     }
 
-    public void enviarMensaje(Vendedor vendedor, String mensaje){
-
+    @Override
+    public String toString() {
+        return "Vendedor{" +
+                "nombre='" + nombre + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", cedula='" + cedula + '\'' +
+                ", direccion='" + direccion + '\'' +
+                ", contactos=" + contactos.size() +
+                ", productos=" + productos.size() + // Muestra el número de productos
+                ", muro=" + muro +
+                '}';
     }
-
-
 }
