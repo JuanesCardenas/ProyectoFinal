@@ -1,4 +1,4 @@
-package com.proyectofinal.Excepciones;
+package com.proyectofinal.excepciones;
 
 public class ConnectionTimeoutException extends Exception {
     public ConnectionTimeoutException() {

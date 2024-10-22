@@ -12,11 +12,13 @@ public class Producto implements Serializable {
     private String categoria;           // Categoría del producto
     private double precio;              // Precio del producto
     private Estado estado;      // Estado del producto (VENDIDO, PUBLICADO, CANCELADO)
+    private String descripcion;
     private LocalDateTime fechaPublicacion; // Fecha de publicación del producto
     private int meGusta;                // Número de "Me gusta" recibidos
 
-    // Constructor principal
-    public Producto(String nombre, String codigo, String imagen, String categoria, double precio) {
+    //Constructor
+    public Producto(String nombre, String codigo, String imagen, String categoria, double precio,
+            String descripcion) {
         this.nombre = nombre;
         this.codigo = codigo;
         this.imagen = imagen;
@@ -24,7 +26,16 @@ public class Producto implements Serializable {
         this.precio = precio;
         this.estado = Estado.PUBLICADO;   // Estado inicial: publicado
         this.fechaPublicacion = LocalDateTime.now();  // Fecha de creación es la actual
+        this.descripcion = descripcion;
         this.meGusta = 0;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     // Getters y Setters

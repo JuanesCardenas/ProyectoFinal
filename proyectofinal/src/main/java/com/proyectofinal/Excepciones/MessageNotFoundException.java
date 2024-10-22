@@ -1,4 +1,4 @@
-package com.proyectofinal.Excepciones;
+package com.proyectofinal.excepciones;
 
 public class MessageNotFoundException extends Exception {
     public MessageNotFoundException() {

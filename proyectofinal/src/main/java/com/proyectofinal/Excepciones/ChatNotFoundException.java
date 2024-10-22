@@ -1,4 +1,4 @@
-package com.proyectofinal.Excepciones;
+package com.proyectofinal.excepciones;
 
 public class ChatNotFoundException extends Exception {
     public ChatNotFoundException() {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.proyectofinal.Excepciones.ExcepcionLimiteVendedores;
+import com.proyectofinal.excepciones.ExcepcionLimiteVendedores;
 
 public class VendedorCRUD {
     private List<Vendedor> vendedores;
