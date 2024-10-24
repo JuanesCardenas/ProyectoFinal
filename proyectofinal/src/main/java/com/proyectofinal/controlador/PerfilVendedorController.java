@@ -2,6 +2,7 @@ package com.proyectofinal.controlador;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 
@@ -11,6 +12,18 @@ import java.util.List;
 import com.proyectofinal.modelo.Producto;
 
 public class PerfilVendedorController {
+    
+    @FXML
+    private Label cedulaLabel;
+
+    @FXML
+    private Label direccionLabel;
+
+    @FXML
+    private VBox muroVBox;
+
+    @FXML
+    private Label nombreLabel;
 
     @FXML
     private VBox productosVBox;

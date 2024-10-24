@@ -7,14 +7,24 @@ import java.util.Properties;
 public class AdministradorPropiedades {
 
     private Properties propiedades;
-
-    public AdministradorPropiedades(String rutaArchivo) {
+    private static AdministradorPropiedades instancia;
+    
+    // Singleton: Constructor privado
+    public AdministradorPropiedades(){
         propiedades = new Properties();
         try {
-            propiedades.load(new FileInputStream(rutaArchivo));
+            propiedades.load(new FileInputStream("C:/Users/FELIPE/Downloads/ProyectoFinal/proyectofinal/src/main/resources/Config.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    // Método para obtener la única instancia de la clase
+    public static AdministradorPropiedades getInstance(){
+        if (instancia == null) {
+            instancia = new AdministradorPropiedades();
+        }
+        return instancia;
     }
 
     public String getRuta(String key) {

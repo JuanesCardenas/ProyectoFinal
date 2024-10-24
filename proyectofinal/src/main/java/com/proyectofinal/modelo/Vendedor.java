@@ -9,13 +9,13 @@ public class Vendedor  implements Serializable {
     private static final long serialVersionUID = 1L;
     private String nombre;
     private String apellidos;
-    private String cedula; // Identificador único
+    private int cedula; // Identificador único
     private String direccion;
     private List<Vendedor> contactos;   // Lista de contactos (vendedores aliados)
     private Muro muro;                  // Muro donde se publican productos y mensajes
     private List<Producto> productos;   // Lista de productos del vendedor
 
-    public Vendedor(String nombre, String apellidos, String cedula, String direccion) {
+    public Vendedor(String nombre, String apellidos, int cedula, String direccion) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.cedula = cedula;
@@ -42,11 +42,11 @@ public class Vendedor  implements Serializable {
         this.apellidos = apellidos;
     }
 
-    public String getCedula() {
+    public int getCedula() {
         return cedula;
     }
 
-    public void setCedula(String cedula) {
+    public void setCedula(int cedula) {
         this.cedula = cedula;
     }
 

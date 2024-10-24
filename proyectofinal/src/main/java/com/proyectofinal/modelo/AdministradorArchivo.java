@@ -1,33 +1,59 @@
 package com.proyectofinal.modelo;
-
 import java.io.File;
+import java.io.IOException;
 
 public class AdministradorArchivo {
 
-    public static void crearEstructuraCarpetas() {
-        AdministradorPropiedades propiedades = new AdministradorPropiedades("Config.properties");
+    public static void crearEstructuraCarpetas(AdministradorPropiedades propiedades) throws IOException {
+        // Obtener la ruta de la carpeta "log" desde config.properties
+        String logPath = propiedades.getRuta("log.directory");
+    
+        // Verificar y crear la carpeta "log" antes de inicializar el logger
+        File logDir = new File(logPath);
+        if (!logDir.exists()) {
+            logDir.mkdirs();  // Crear la carpeta si no existe
+            System.out.println("Carpeta 'log' creada.");
+        }
+        // Inicializar el logger después de crear la carpeta "log"
+        AdministradorLogger.getInstance().inicializarLogger(propiedades);
+    
         try {
-
-            // Obtener las rutas desde config.properties
+            // Obtener las otras rutas desde config.properties
             String persistenciaPath = propiedades.getRuta("persistencia.directory");
             String respaldoPath = propiedades.getRuta("respaldo.directory");
             String archivosPath = propiedades.getRuta("archivos.directory");
-            String logPath = propiedades.getRuta("log.directory");
-
-            // Crear carpetas 
-            new File(persistenciaPath).mkdirs();
-            new File(respaldoPath).mkdirs();
-            new File(archivosPath).mkdirs();
-            new File(logPath).mkdirs();
-
-            // Registrar en el log que la estructura de carpetas ha sido creada
-            AdministradorLogger logger = new AdministradorLogger();
-            logger.inicializarLogger();  // Asegúrate de inicializar el logger antes de usarlo
-            logger.escribirLog(AdministradorArchivo.class, "Estructura de carpetas creada.", java.util.logging.Level.INFO);
-            
+    
+            // Verificar y crear la carpeta "persistencia"
+            File persistenciaDir = new File(persistenciaPath);
+            if (!persistenciaDir.exists()) {
+                persistenciaDir.mkdirs();  // Crear la carpeta si no existe
+                AdministradorLogger.getInstance().escribirLog(AdministradorArchivo.class, "Carpeta '/td/persistencia' creada en el disco local C.", java.util.logging.Level.INFO);
+            } else {
+                AdministradorLogger.getInstance().escribirLog(AdministradorArchivo.class, "Carpeta '/td/persistencia' ya existe.", java.util.logging.Level.INFO);
+            }
+    
+            // Verificar y crear la carpeta "respaldo"
+            File respaldoDir = new File(respaldoPath);
+            if (!respaldoDir.exists()) {
+                respaldoDir.mkdirs();  // Crear la carpeta si no existe
+                AdministradorLogger.getInstance().escribirLog(AdministradorArchivo.class, "Carpeta 'respaldo' creada.", java.util.logging.Level.INFO);
+            } else {
+                AdministradorLogger.getInstance().escribirLog(AdministradorArchivo.class, "Carpeta 'respaldo' ya existe.", java.util.logging.Level.INFO);
+            }
+    
+            // Verificar y crear la carpeta "archivos"
+            File archivosDir = new File(archivosPath);
+            if (!archivosDir.exists()) {
+                archivosDir.mkdirs();  // Crear la carpeta si no existe
+                AdministradorLogger.getInstance().escribirLog(AdministradorArchivo.class, "Carpeta 'archivos' creada.", java.util.logging.Level.INFO);
+            } else {
+                AdministradorLogger.getInstance().escribirLog(AdministradorArchivo.class, "Carpeta 'archivos' ya existe.", java.util.logging.Level.INFO);
+            }
+    
         } catch (Exception e) {
-            e.printStackTrace();  // O manejar el error con un log o alerta de GUI
+            AdministradorLogger.getInstance().escribirLog(AdministradorArchivo.class, e.toString(), java.util.logging.Level.SEVERE);
         }
     }
+    
 }
 

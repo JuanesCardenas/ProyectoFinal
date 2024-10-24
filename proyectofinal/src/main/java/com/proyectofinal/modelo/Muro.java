@@ -1,17 +1,21 @@
 package com.proyectofinal.modelo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Muro {
+public class Muro implements Serializable{
+    private static final long serialVersionUID = 1L;
     private List<Mensaje> mensajes;     // Lista de mensajes en el muro
     private List<Producto> productosPublicados; // Productos que el vendedor ha publicado
+
 
     // Constructor
     public Muro() {
         this.mensajes = new ArrayList<>();
         this.productosPublicados = new ArrayList<>();
     }
+    
 
     // Método para agregar un mensaje al muro
     public void agregarMensaje(Mensaje mensaje) {

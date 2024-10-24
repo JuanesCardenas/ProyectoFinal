@@ -7,13 +7,26 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 
 public class AdministradorLogger {
-
     private FileHandler archivo;
+    private static AdministradorLogger instancia;
+    
+    // Singleton: Constructor privado
+    private AdministradorLogger(){
+    }
+
+    // Método para obtener la única instancia de la clase
+    public static AdministradorLogger getInstance(){
+        if (instancia == null) {
+            instancia = new AdministradorLogger();
+        }
+        return instancia;
+    }
+
     // Inicialización del logger
-    public void inicializarLogger() throws IOException {
+    public void inicializarLogger(AdministradorPropiedades propiedades) throws IOException {
         
         try {
-            archivo = new FileHandler("logClubDeportivo.log", true);
+            archivo = new FileHandler(propiedades.getRuta("log.directory")+"/MarketPlaces.log", true);
             SimpleFormatter formatter = new SimpleFormatter();
             archivo.setFormatter(formatter);
         } catch (IOException e) {
