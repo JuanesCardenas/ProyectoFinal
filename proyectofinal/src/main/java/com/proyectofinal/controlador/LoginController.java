@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 import com.proyectofinal.ManejadorEscenas;
+import com.proyectofinal.excepciones.AlreadyRegisteredUser;
 import com.proyectofinal.modelo.AdministradorLogger;
 import com.proyectofinal.modelo.MarketPlaceServicios;
 import com.proyectofinal.modelo.Vendedor;
@@ -135,6 +136,9 @@ public class LoginController {
             MarketPlaceServicios.getInstance().registrarVendedor(nuevoVendedor);
             mostrarAlertaInformacion("Éxito", "Registro completado.", "El vendedor ha sido registrado exitosamente.");
             AdministradorLogger.getInstance().escribirLog(LoginController.class, "Vendedor registrado: " + nombreVendedor, Level.INFO);
+        } catch (AlreadyRegisteredUser e) {
+            mostrarAlerta("Error", "Registro fallido.", e.getMessage());
+            AdministradorLogger.getInstance().escribirLog(LoginController.class, e.getMessage(), Level.WARNING);
         } catch (IOException e) {
             e.printStackTrace();
             mostrarAlerta("Error", "Error de registro.", "Hubo un problema al registrar al vendedor.");

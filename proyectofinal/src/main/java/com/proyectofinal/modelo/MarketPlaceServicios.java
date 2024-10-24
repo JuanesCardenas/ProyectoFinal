@@ -2,6 +2,8 @@ package com.proyectofinal.modelo;
 
 import java.io.IOException;
 
+import com.proyectofinal.excepciones.AlreadyRegisteredUser;
+
 public class MarketPlaceServicios {
 
     private static MarketPlaceServicios instancia;
@@ -20,7 +22,7 @@ public class MarketPlaceServicios {
     }
 
     // Registrar un nuevo vendedor usando VendedorCRUD
-    public void registrarVendedor(Vendedor nuevoVendedor) throws IOException {
+    public void registrarVendedor(Vendedor nuevoVendedor) throws IOException, AlreadyRegisteredUser {
         vendedorCRUD.registrarVendedor(nuevoVendedor);
     }
 

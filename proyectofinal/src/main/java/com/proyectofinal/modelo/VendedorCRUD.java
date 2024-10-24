@@ -3,6 +3,8 @@ package com.proyectofinal.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.proyectofinal.excepciones.AlreadyRegisteredUser;
+
 import java.io.IOException;
 
 public class VendedorCRUD {
@@ -27,7 +29,7 @@ public class VendedorCRUD {
     }
 
     // Método para crear un nuevo vendedor
-    public void registrarVendedor(Vendedor nuevoVendedor) throws IOException {
+    public void registrarVendedor(Vendedor nuevoVendedor) throws IOException, AlreadyRegisteredUser {
         // Obtener la lista actual de vendedores desde el archivo serializado
         List<Vendedor> vendedores = obtenerTodosLosVendedores();
 
@@ -35,7 +37,7 @@ public class VendedorCRUD {
         for (Vendedor vendedor : vendedores) {
             if (vendedor.getCedula() == nuevoVendedor.getCedula()) {
                 AdministradorLogger.getInstance().escribirLog(VendedorCRUD.class, "El vendedor ya está registrado.", java.util.logging.Level.INFO);
-                return; // No registrar si ya existe
+                throw new AlreadyRegisteredUser("El vendedor con la cédula " + nuevoVendedor.getCedula() + " ya está registrado.");
             }
         }
 
