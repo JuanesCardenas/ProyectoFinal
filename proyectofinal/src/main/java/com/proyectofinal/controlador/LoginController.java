@@ -68,7 +68,7 @@ public class LoginController {
         
     }
     
-    public void manejarLogin(ActionEvent event) {
+    public void manejarLogin() {
 
         // Asigna los datos ingresados en los campos de texto como variables.
         String nombreVendedor = nombreLoginLabel.getText();
@@ -91,7 +91,7 @@ public class LoginController {
         if (vendedor != null) {
             // Si se encuentra el vendedor, cambiar a la escena del Marketplace
             try {
-                ManejadorEscenas.cambiarEscena("perfilVendedor");
+                ManejadorEscenas.cambiarEscenaConDatos("perfilVendedor", vendedor);
             } catch (IOException e) {
                 e.printStackTrace();
                 AdministradorLogger.getInstance().escribirLog(LoginController.class, e.toString() + "Error al cambiar de escena.", Level.SEVERE);
@@ -103,7 +103,7 @@ public class LoginController {
         }
     }
 
-    public void manejarRegistro(ActionEvent event) {
+    public void manejarRegistro() {
         // Asigna los datos ingresados en los campos de texto como variables
         String nombreVendedor = nombreRegistroLabel.getText();
         String apellidoVendedor = apellidoRegistroLabel.getText();
@@ -134,7 +134,7 @@ public class LoginController {
         // Intentar registrar el vendedor usando MarketplaceService
         try {
             MarketPlaceServicios.getInstance().registrarVendedor(nuevoVendedor);
-            mostrarAlertaInformacion("Éxito", "Registro completado.", "El vendedor ha sido registrado exitosamente.");
+            mostrarInformacion("Éxito", "Registro completado.", "El vendedor ha sido registrado exitosamente.");
             AdministradorLogger.getInstance().escribirLog(LoginController.class, "Vendedor registrado: " + nombreVendedor, Level.INFO);
         } catch (AlreadyRegisteredUser e) {
             mostrarAlerta("Error", "Registro fallido.", e.getMessage());
@@ -146,6 +146,7 @@ public class LoginController {
         }
     }
 
+    
 
     private void mostrarAlerta(String titulo, String encabezado, String contenido) {
         Alert alerta = new Alert(Alert.AlertType.ERROR);
@@ -155,7 +156,7 @@ public class LoginController {
         alerta.showAndWait();
     }
 
-    private void mostrarAlertaInformacion(String titulo, String encabezado, String contenido) {
+    private void mostrarInformacion(String titulo, String encabezado, String contenido) {
         Alert alerta = new Alert(Alert.AlertType.INFORMATION); // Cambiar a tipo de alerta de información
         alerta.setTitle(titulo);
         alerta.setHeaderText(encabezado);

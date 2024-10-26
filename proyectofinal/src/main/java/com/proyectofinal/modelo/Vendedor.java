@@ -2,6 +2,10 @@ package com.proyectofinal.modelo;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.proyectofinal.excepciones.AlreadyRegisteredUser;
+
+import java.io.IOException;
 import java.io.Serializable;
 
 public class Vendedor  implements Serializable {
@@ -87,6 +91,21 @@ public class Vendedor  implements Serializable {
     public void publicarProducto(Producto producto) {
         this.muro.agregarProductoPublicado(producto); // Agregar al muro
         this.productos.add(producto); // Agregar a la lista de productos
+
+        // Serializar la lista de productos del vendedor
+        try {
+            ProductoCRUD productoCRUD = new ProductoCRUD(); // Crear instancia de ProductoCRUD
+            productoCRUD.registrarProducto(producto); // Registrar el producto
+        } catch (IOException | AlreadyRegisteredUser e) {
+            AdministradorLogger.getInstance().escribirLog(Vendedor.class, e.toString() + " " + "Error al registrar el producto.", java.util.logging.Level.SEVERE);
+        }
+
+        try {
+            VendedorCRUD vendedorCRUD = new VendedorCRUD(); // Crear instancia de VendedorCRUD
+            vendedorCRUD.actualizarVendedor(this); // Actualizar el vendedor
+        } catch (IOException e) {
+            AdministradorLogger.getInstance().escribirLog(Vendedor.class, e.toString() + " " + "Error al actualizar el vendedor.", java.util.logging.Level.SEVERE);
+        }
     }
 
     // Método para agregar un mensaje al muro

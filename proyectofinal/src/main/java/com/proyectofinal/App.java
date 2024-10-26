@@ -1,6 +1,7 @@
 package com.proyectofinal;
 
 import com.proyectofinal.modelo.AdministradorArchivo;
+import com.proyectofinal.modelo.AdministradorPersistencia;
 import com.proyectofinal.modelo.AdministradorPropiedades;
 
 import javafx.application.Application;
@@ -17,6 +18,7 @@ public class App extends Application {
         ManejadorEscenas.inicializar(stage);
         AdministradorPropiedades propiedades = new AdministradorPropiedades();
         AdministradorArchivo.crearEstructuraCarpetas(propiedades);
+        AdministradorPersistencia.realizarRespaldoCompleto();
         
         // Cambia a la escena de login
         ManejadorEscenas.cambiarEscena("login");

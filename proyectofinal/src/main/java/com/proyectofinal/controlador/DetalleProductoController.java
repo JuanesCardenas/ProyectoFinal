@@ -1,5 +1,7 @@
 package com.proyectofinal.controlador;
 
+import java.io.File;
+
 import com.proyectofinal.modelo.Producto;
 
 import javafx.fxml.FXML;
@@ -29,7 +31,13 @@ public class DetalleProductoController {
 
     // Método para configurar los detalles del producto
     public void setProducto(Producto producto) {
-        imagenUrl.setImage(new Image(producto.getImagen()));
+        String imagenPath = producto.getImagen(); 
+
+        if (!imagenPath.startsWith("file://")) {
+            imagenPath = new File(imagenPath).toURI().toString(); // Convierte a URI
+        }
+
+        imagenUrl.setImage(new Image(imagenPath));
         nombreProductoLabel.setText("Nombre: " + producto.getNombre());
         categoriaProductoLabel.setText("Categoría: " + producto.getCategoria());
         precioProductoLabel.setText("Precio: $" + producto.getPrecio());
