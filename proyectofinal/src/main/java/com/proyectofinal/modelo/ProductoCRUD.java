@@ -10,6 +10,7 @@ public class ProductoCRUD {
     private static final String ARCHIVO_PRODUCTOS = AdministradorPropiedades.getInstance().getRuta("persistencia.directory") + "/Productos.dat";  // Archivo donde se almacenan los productos
 
     // Método para obtener todos los productos (deserialización)
+    @SuppressWarnings("unchecked")
     public List<Producto> obtenerTodosLosProductos() {
         List<Producto> productos = null;
             // Guardar la lista actualizada en el archivo (serialización)
@@ -23,6 +24,7 @@ public class ProductoCRUD {
                 e.printStackTrace();
                 AdministradorLogger.getInstance().escribirLog(ProductoCRUD.class, e.toString(), java.util.logging.Level.SEVERE);
             }
+            productos = (List<Producto>) cargar.getResultadoDeserializacion();
 
         // Si no hay productos deserializados, retornar una lista vacía
         if (productos == null) {

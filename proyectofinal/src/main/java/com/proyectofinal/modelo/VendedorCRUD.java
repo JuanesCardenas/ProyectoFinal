@@ -12,10 +12,11 @@ public class VendedorCRUD {
     private static final String ARCHIVO_VENDEDORES = AdministradorPropiedades.getInstance().getRuta("persistencia.directory") + "/Vendedores.dat";  // Archivo donde se almacenan los vendedores
 
     // Método para obtener todos los Vendedores (deserialización)
+    @SuppressWarnings("unchecked")
     public List<Vendedor> obtenerTodosLosVendedores() {
         List<Vendedor> vendedores = null;
             // Guardar la lista actualizada en el archivo (serialización)
-            HiloSerializador cargar = new HiloSerializador(vendedores, ARCHIVO_VENDEDORES, "binario", false);
+            HiloSerializador cargar = new HiloSerializador(ARCHIVO_VENDEDORES, "binario", false);
             Thread hilo = new Thread(cargar);
             hilo.start();
             try {
@@ -25,6 +26,7 @@ public class VendedorCRUD {
                 e.printStackTrace();
                 AdministradorLogger.getInstance().escribirLog(VendedorCRUD.class, e.toString(), java.util.logging.Level.SEVERE);
             }
+            vendedores = (List<Vendedor>) cargar.getResultadoDeserializacion();
 
         // Si no hay vendedores deserializados, retornar una lista vacía
         if (vendedores == null) {
