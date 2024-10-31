@@ -11,15 +11,20 @@ public class VendedorCRUD {
 
     private static final String ARCHIVO_VENDEDORES = AdministradorPropiedades.getInstance().getRuta("persistencia.directory") + "/Vendedores.dat";  // Archivo donde se almacenan los vendedores
 
-    // Método para obtener todos los vendedores (deserialización)
-    @SuppressWarnings("unchecked")
+    // Método para obtener todos los Vendedores (deserialización)
     public List<Vendedor> obtenerTodosLosVendedores() {
         List<Vendedor> vendedores = null;
-        try {
-            vendedores = (List<Vendedor>) AdministradorPersistencia.deserializarObjetoBinario(ARCHIVO_VENDEDORES);
-        } catch (IOException | ClassNotFoundException e) {
-            AdministradorLogger.getInstance().escribirLog(VendedorCRUD.class, e.toString() + " " + "Error al cargar los vendedores.", java.util.logging.Level.SEVERE);
-        }
+            // Guardar la lista actualizada en el archivo (serialización)
+            HiloSerializador cargar = new HiloSerializador(vendedores, ARCHIVO_VENDEDORES, "binario", false);
+            Thread hilo = new Thread(cargar);
+            hilo.start();
+            try {
+                hilo.join();
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                AdministradorLogger.getInstance().escribirLog(VendedorCRUD.class, e.toString(), java.util.logging.Level.SEVERE);
+            }
 
         // Si no hay vendedores deserializados, retornar una lista vacía
         if (vendedores == null) {
@@ -45,7 +50,16 @@ public class VendedorCRUD {
         vendedores.add(nuevoVendedor);
 
         // Guardar la lista actualizada en el archivo (serialización)
-        AdministradorPersistencia.serializarObjetoBinario(vendedores, ARCHIVO_VENDEDORES);
+        HiloSerializador guardar = new HiloSerializador(vendedores, ARCHIVO_VENDEDORES, "binario", true);
+        Thread hilo = new Thread(guardar);
+        hilo.start();
+        try {
+            hilo.join();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            AdministradorLogger.getInstance().escribirLog(VendedorCRUD.class, e.toString(), java.util.logging.Level.SEVERE);
+        }
         AdministradorLogger.getInstance().escribirLog(VendedorCRUD.class, "Vendedor registrado correctamente.", java.util.logging.Level.INFO);
     }
 
@@ -65,8 +79,18 @@ public class VendedorCRUD {
         }
 
         if (encontrado) {
-            // Serializar la lista actualizada de vendedores
-            AdministradorPersistencia.serializarObjetoBinario(vendedores, ARCHIVO_VENDEDORES);
+            // Serializar la lista actualizada de vendedores 
+            // Guardar la lista actualizada en el archivo (serialización)
+            HiloSerializador guardar = new HiloSerializador(vendedores, ARCHIVO_VENDEDORES, "binario", true);
+            Thread hilo = new Thread(guardar);
+            hilo.start();
+            try {
+                hilo.join();
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                AdministradorLogger.getInstance().escribirLog(VendedorCRUD.class, e.toString(), java.util.logging.Level.SEVERE);
+            }
             AdministradorLogger.getInstance().escribirLog(VendedorCRUD.class, "Vendedor actualizado correctamente.", java.util.logging.Level.INFO);
         } else {
             AdministradorLogger.getInstance().escribirLog(VendedorCRUD.class, "No se encontró un vendedor con la cédula: " + vendedorActualizado.getCedula(), java.util.logging.Level.INFO);
@@ -90,7 +114,17 @@ public class VendedorCRUD {
 
         if (eliminado) {
             // Serializar la lista actualizada después de eliminar el vendedor
-            AdministradorPersistencia.serializarObjetoBinario(vendedores, ARCHIVO_VENDEDORES);
+            // Guardar la lista actualizada en el archivo (serialización)
+            HiloSerializador respaldo = new HiloSerializador(vendedores, ARCHIVO_VENDEDORES, "binario", true);
+            Thread hilo = new Thread(respaldo);
+            hilo.start();
+            try {
+                hilo.join();
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                AdministradorLogger.getInstance().escribirLog(VendedorCRUD.class, e.toString(), java.util.logging.Level.SEVERE);
+            }
             AdministradorLogger.getInstance().escribirLog(VendedorCRUD.class, "Vendedor eliminado correctamente.", java.util.logging.Level.INFO);
         } else {
             AdministradorLogger.getInstance().escribirLog(VendedorCRUD.class, "No se encontró un vendedor con la cédula: " + cedula, java.util.logging.Level.INFO);

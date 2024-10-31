@@ -10,14 +10,19 @@ public class ProductoCRUD {
     private static final String ARCHIVO_PRODUCTOS = AdministradorPropiedades.getInstance().getRuta("persistencia.directory") + "/Productos.dat";  // Archivo donde se almacenan los productos
 
     // Método para obtener todos los productos (deserialización)
-    @SuppressWarnings("unchecked")
     public List<Producto> obtenerTodosLosProductos() {
         List<Producto> productos = null;
-        try {
-            productos = (List<Producto>) AdministradorPersistencia.deserializarObjetoBinario(ARCHIVO_PRODUCTOS);
-        } catch (IOException | ClassNotFoundException e) {
-            AdministradorLogger.getInstance().escribirLog(ProductoCRUD.class, e.toString() + " " + "Error al cargar los productos.", java.util.logging.Level.SEVERE);
-        }
+            // Guardar la lista actualizada en el archivo (serialización)
+            HiloSerializador cargar = new HiloSerializador(productos, ARCHIVO_PRODUCTOS, "binario", false);
+            Thread hilo = new Thread(cargar);
+            hilo.start();
+            try {
+                hilo.join();
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                AdministradorLogger.getInstance().escribirLog(ProductoCRUD.class, e.toString(), java.util.logging.Level.SEVERE);
+            }
 
         // Si no hay productos deserializados, retornar una lista vacía
         if (productos == null) {
@@ -42,7 +47,16 @@ public class ProductoCRUD {
         productos.add(nuevoProducto);
 
         // Guardar la lista actualizada en el archivo (serialización)
-        AdministradorPersistencia.serializarObjetoBinario(productos, ARCHIVO_PRODUCTOS);
+        HiloSerializador guardar = new HiloSerializador(productos, ARCHIVO_PRODUCTOS, "binario", true);
+        Thread hilo = new Thread(guardar);
+        hilo.start();
+        try {
+            hilo.join();
+        } catch (InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            AdministradorLogger.getInstance().escribirLog(ProductoCRUD.class, e.toString(), java.util.logging.Level.SEVERE);
+        }
         AdministradorLogger.getInstance().escribirLog(ProductoCRUD.class, "Producto registrado correctamente.", java.util.logging.Level.INFO);
     }
 
@@ -63,7 +77,17 @@ public class ProductoCRUD {
 
         if (encontrado) {
             // Serializar la lista actualizada de productos
-            AdministradorPersistencia.serializarObjetoBinario(productos, ARCHIVO_PRODUCTOS);
+            // Guardar la lista actualizada en el archivo (serialización)
+            HiloSerializador guardar = new HiloSerializador(productos, ARCHIVO_PRODUCTOS, "binario", true);
+            Thread hilo = new Thread(guardar);
+            hilo.start();
+            try {
+                hilo.join();
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                AdministradorLogger.getInstance().escribirLog(ProductoCRUD.class, e.toString(), java.util.logging.Level.SEVERE);
+            }
             AdministradorLogger.getInstance().escribirLog(ProductoCRUD.class, "Producto actualizado correctamente.", java.util.logging.Level.INFO);
         } else {
             AdministradorLogger.getInstance().escribirLog(ProductoCRUD.class, "No se encontró un producto con el ID: " + productoActualizado.getCodigo(), java.util.logging.Level.INFO);
@@ -87,7 +111,17 @@ public class ProductoCRUD {
 
         if (eliminado) {
             // Serializar la lista actualizada después de eliminar el producto
-            AdministradorPersistencia.serializarObjetoBinario(productos, ARCHIVO_PRODUCTOS);
+            // Guardar la lista actualizada en el archivo (serialización)
+            HiloSerializador guardar = new HiloSerializador(productos, ARCHIVO_PRODUCTOS, "binario", true);
+            Thread hilo = new Thread(guardar);
+            hilo.start();
+            try {
+                hilo.join();
+            } catch (InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                AdministradorLogger.getInstance().escribirLog(ProductoCRUD.class, e.toString(), java.util.logging.Level.SEVERE);
+            }
             AdministradorLogger.getInstance().escribirLog(ProductoCRUD.class, "Producto eliminado correctamente.", java.util.logging.Level.INFO);
         } else {
             AdministradorLogger.getInstance().escribirLog(ProductoCRUD.class, "No se encontró un producto con el ID: " + codigo, java.util.logging.Level.INFO);
