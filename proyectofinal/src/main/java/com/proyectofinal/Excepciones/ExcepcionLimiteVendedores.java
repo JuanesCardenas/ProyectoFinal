@@ -1,4 +1,4 @@
-package com.proyectofinal.excepciones;
+package com.proyectofinal.Excepciones;
 
 public class ExcepcionLimiteVendedores extends RuntimeException {
     public ExcepcionLimiteVendedores(String mensaje) {

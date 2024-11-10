@@ -1,4 +1,4 @@
-package com.proyectofinal.excepciones;
+package com.proyectofinal.Excepciones;
 
 public class ProductNotFoundException extends Exception {
     public ProductNotFoundException() {

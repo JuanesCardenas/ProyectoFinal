@@ -2,7 +2,7 @@ package com.proyectofinal.modelo;
 
 import java.io.IOException;
 
-import com.proyectofinal.excepciones.AlreadyRegisteredUser;
+import com.proyectofinal.Excepciones.AlreadyRegisteredUser;
 
 public class MarketPlaceServicios {
 

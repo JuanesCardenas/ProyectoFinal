@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 
 import com.proyectofinal.ManejadorEscenas;
-import com.proyectofinal.excepciones.AlreadyRegisteredUser;
+import com.proyectofinal.Excepciones.AlreadyRegisteredUser;
 import com.proyectofinal.modelo.AdministradorLogger;
 import com.proyectofinal.modelo.MarketPlaceServicios;
 import com.proyectofinal.modelo.Vendedor;

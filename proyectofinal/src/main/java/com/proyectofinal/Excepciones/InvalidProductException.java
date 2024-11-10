@@ -1,4 +1,4 @@
-package com.proyectofinal.excepciones;
+package com.proyectofinal.Excepciones;
 
 public class InvalidProductException extends Exception {
     public InvalidProductException() {

@@ -1,4 +1,4 @@
-package com.proyectofinal.excepciones;
+package com.proyectofinal.Excepciones;
 
 public class FileExportException extends Exception {
     public FileExportException() {

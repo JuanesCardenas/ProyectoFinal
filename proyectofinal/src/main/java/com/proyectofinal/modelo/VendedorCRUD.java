@@ -3,7 +3,7 @@ package com.proyectofinal.modelo;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.proyectofinal.excepciones.AlreadyRegisteredUser;
+import com.proyectofinal.Excepciones.AlreadyRegisteredUser;
 
 import java.io.IOException;
 

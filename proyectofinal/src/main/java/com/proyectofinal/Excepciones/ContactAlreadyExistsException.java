@@ -1,4 +1,4 @@
-package com.proyectofinal.excepciones;
+package com.proyectofinal.Excepciones;
 
 public class ContactAlreadyExistsException extends Exception {
     public ContactAlreadyExistsException() {
